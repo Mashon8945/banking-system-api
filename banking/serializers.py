@@ -1,17 +1,17 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 
-from .models import Employees, Customers
+from .models import Employees, Customers, Transactions
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employees
-        fields = ['username', 'email', 'password', 'role']
+        fields = ['name', 'email', 'password', 'role']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
         user = Employees.objects.create_user(
-            username=validated_data['username'],
+            name = validated_data['name'],
             email = validated_data['email'],
             password= validated_data['password'],
             role = validated_data.get('role', '')
@@ -19,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user
     
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
+    name = serializers.CharField()
     password = serializers.CharField()
 
     def validate(self, data):
@@ -32,3 +32,8 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customers
         fields = ['name', 'email', 'account_balance', 'created_at', 'updated_at']
+
+class TransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Transactions
+        fields = ['customer', 'transaction_type', 'amount', 'created_at', 'updated_at']

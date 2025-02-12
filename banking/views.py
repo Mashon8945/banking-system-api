@@ -4,7 +4,10 @@ from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
 from django.contrib.auth import login
 
-from .serializers import UserSerializer, LoginSerializer, CustomerSerializer
+from .serializers import (
+    UserSerializer, LoginSerializer, CustomerSerializer,
+    TransactionSerializer
+)
 from .models import Customers
 
 
@@ -53,3 +56,31 @@ def list_customers(request):
     filtered_customers = paginator.paginate_queryset(customers, request)
     serializer = CustomerSerializer(filtered_customers, many=True)
     return paginator.get_paginated_response(serializer.data)
+
+@api_view(['POST'])
+def deposit_money(request):
+    if request.method == 'POST':
+        serializer = TransactionSerializer(data=request.data)
+        if serializer.is_valid():
+            transaction = serializer.save()
+            customer = transaction.customer
+            customer.account_balance += transaction.amount
+            customer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def withdraw_money(request):
+    if request.method == 'POST':
+        serializer = TransactionSerializer(data=request.data)
+        if serializer.is_valid():
+            transaction = serializer.save()
+            customer = transaction.customer
+            if customer.account_balance >= transaction.amount:
+                customer.account_balance -= transaction.amount
+                customer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                transaction.delete()
+                return Response({"error": "Insufficient funds"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
