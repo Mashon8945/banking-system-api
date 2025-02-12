@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 
-from .models import Employees
+from .models import Employees, Customers
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,3 +27,8 @@ class LoginSerializer(serializers.Serializer):
         if user and user.is_active:
             return user
         raise serializers.ValidationError("Invalid Credentials")
+    
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customers
+        fields = ['name', 'email', 'account_balance', 'created_at', 'updated_at']

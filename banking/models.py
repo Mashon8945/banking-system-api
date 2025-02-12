@@ -1,10 +1,9 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-class Employees(AbstractUser):
+class Employees(models.Model):
     name = models.TextField()
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
