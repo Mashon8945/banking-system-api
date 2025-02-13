@@ -10,23 +10,26 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        user = Employees.objects.create_user(
+        return Employees.objects.create_user(
             name = validated_data['name'],
             email = validated_data['email'],
             password= validated_data['password'],
             role = validated_data.get('role', '')
         )
-        return user
     
 class LoginSerializer(serializers.Serializer):
-    name = serializers.CharField()
-    password = serializers.CharField()
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        user = authenticate(**data)
+        email = data.get('email')
+        password = data.get('password')
+
+        user = authenticate(email=email, password=password)
+
         if user and user.is_active:
             return user
-        raise serializers.ValidationError("Invalid Credentials")
+        raise serializers.ValidationError("Invalid credentials")
     
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
