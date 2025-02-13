@@ -1,6 +1,8 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.pagination import PageNumberPagination
 from django.contrib.auth import login
 
@@ -9,6 +11,7 @@ from .serializers import (
     TransactionSerializer
 )
 from .models import Customers
+
 
 
 @api_view(['POST'])
@@ -32,13 +35,15 @@ def login_employee(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def add_customer(request):
-    if request.method == 'POST':
-        serializer = CustomerSerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if request.user.role != 'admin':
+        return Response({"error": "You do not have permission to perform this action!"}, status=status.HTTP_403_FORBIDDEN)
+    serializer = CustomerSerializer(data = request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['GET'])
 def list_customers(request):
@@ -84,3 +89,16 @@ def withdraw_money(request):
                 transaction.delete()
                 return Response({"error": "Insufficient funds"}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_customer(request, customer_id):
+    if request.user.role != 'admin':
+        return Response({"error": "You do not have permission to perform this action."}, status=status.HTTP_403_FORBIDDEN)
+    try:
+        customer = Customers.objects.get(id=customer_id)
+        customer.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except Customers.DoesNotExist:
+        return Response({"error": "Customer not found."}, status=status.HTTP_404_NOT_FOUND)
