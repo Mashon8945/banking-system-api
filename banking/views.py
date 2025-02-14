@@ -26,19 +26,22 @@ def register_employee(request):
 
 @api_view(['POST'])
 def login_employee(request):
-    if request.method == 'POST':
-        serializer = LoginSerializer(data = request.data)
-        if serializer.is_valid():
-            user = serializer.validated_data
-            login(request, user)
-            return Response({"message": "Login is successful"}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    serializer = LoginSerializer(data = request.data)
+
+    if serializer.is_valid():
+        user = serializer.validated_data
+        login(request, user)
+        return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_customer(request):
+    """
     if request.user.role != 'admin':
         return Response({"error": "You do not have permission to perform this action!"}, status=status.HTTP_403_FORBIDDEN)
+    """
     serializer = CustomerSerializer(data = request.data)
     if serializer.is_valid():
         serializer.save()
