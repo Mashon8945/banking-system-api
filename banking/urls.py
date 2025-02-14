@@ -15,7 +15,7 @@ urlpatterns = [
     path('customers', list_customers, name='list_customers'),
     path('customers/<int:customer_id>', delete_customer, name='delete_customer'),
 
-    path('transactions/deposit', deposit_money, name='deposit_name'),
+    path('transactions/deposit', deposit_money, name='deposit_money'),
     path('transactions/withdraw', withdraw_money, name='withdraw_money'),
 
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
