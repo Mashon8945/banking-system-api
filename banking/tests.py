@@ -13,7 +13,7 @@ class EmployeeTests(APITestCase):
     def test_register_employee(self):
         url = reverse('register_employee')
         data = {
-            'name': 'testuser',
+            'username': 'user1',
             'email': 'testuser@example.com',
             'password': 'testpassword',
             'role': 'manager'
@@ -21,13 +21,13 @@ class EmployeeTests(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(User.objects.count(), 1)
-        self.assertEqual(User.objects.get().name, 'testuser')
+        self.assertEqual(User.objects.get().username, 'user1')
 
     def test_login_employee(self):
         url = reverse('login_employee')
-        User.objects.create_user(name='testuser', email='testuser@example.com', password='testpassword')
+        User.objects.create_user(username='user1', email='testuser@example.com', password='testpassword')
         data = {
-            'name': 'testuser',
+            'username': 'user1',
             'password': 'testpassword'
         }
         response = self.client.post(url, data, format='json')
@@ -36,7 +36,7 @@ class EmployeeTests(APITestCase):
 
 class CustomerTests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(name='testuser', email='testuser@example.com', password='testpassword')
+        self.user = User.objects.create_user(username='user1', email='testuser@example.com', password='testpassword')
         self.client.force_authenticate(user=self.user)
 
     def test_add_customer(self):
@@ -61,7 +61,7 @@ class CustomerTests(APITestCase):
 
 class TransactionTests(APITestCase):
     def setUp(self):
-        self.user = User.objects.create_user(name='testuser', email='testuser@example.com', password='testpassword')
+        self.user = User.objects.create_user(username='testuser', email='testuser@example.com', password='testpassword')
         self.client.force_authenticate(user=self.user)
         self.customer = Customers.objects.create(name='John Doe', email='johndoe@example.com', account_balance='1000.00')
 
