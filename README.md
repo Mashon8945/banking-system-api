@@ -34,7 +34,7 @@ This is a banking system API built with Django and Django REST Framework. The AP
 
 1. **Clone the repository:**
 
-    ```bash
+    ```sh
     git clone https://github.com/mashon8945/banking-system-api.git
     ```
 
@@ -52,7 +52,7 @@ This is a banking system API built with Django and Django REST Framework. The AP
 
 3. **Install the dependencies**
 
-    ```bash
+    ```sh
     pip install -r requirements.txt
     ```
 
@@ -124,7 +124,9 @@ This is a banking system API built with Django and Django REST Framework. The AP
     ```bash
     git clone https://github.com/mashon8945/banking-system-api.git
     ```
-    ```bash
+    - Navigate
+
+    ```sh
     cd banking-system-api
     ```
 
@@ -142,23 +144,28 @@ This is a banking system API built with Django and Django REST Framework. The AP
 
 ### API Endpoints
 
-    **Authentication**
+**Authentication**
 
-        Register: POST /api/employees/register
-        Login: POST /api/employees/login
+    - Register: POST /api/employees/register
+    - Login: POST /api/employees/login
 
-    **Customers**
+**Customers**
 
-        Add Customer: POST /api/customers/add
-        List Customers: GET /api/customers
-        Delete Customer: DELETE /api/customers/delete/<customer_id>
+    - Add Customer: POST /api/customers/add
+    - List Customers: GET /api/customers
+    - Delete Customer: DELETE /api/customers/delete/<customer_id>
 
-    **Transactions**
+**Transactions**
 
-        Deposit Money: POST /api/transactions/deposit
-        Withdraw Money: POST /api/transactions/withdraw
-        Contributing
-        Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+    - Deposit Money: POST /api/transactions/deposit
+    - Withdraw Money: POST /api/transactions/withdraw
 
-    **License**
-        This project is licensed under the MIT License.
+### Contributing
+    
+    - Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+
+### License
+
+    ```sh
+    This project is licensed under the MIT License.
+    ```
