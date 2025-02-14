@@ -73,8 +73,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'banking_system_api.wsgi.application'
 
+AUTH_USER_MODEL = 'banking.Employees'
+
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Default
+    'django.contrib.auth.backends.ModelBackend',  # Default Django auth backend
 ]
 
 
