@@ -34,21 +34,25 @@ This is a banking system API built with Django and Django REST Framework. The AP
 
 1. **Clone the repository:**
 
-    ```sh
+    ```bash
     git clone https://github.com/mashon8945/banking-system-api.git
+    ```
+    
+    navigate
+    ```
     cd banking-system-api
     ```
 
 2. **Create and activate a virtual environment:**
 
-    ```
+    ```bash
     python -m venv venv
     `venv\Scripts\activate`
     ```
 
 3. **Install the dependencies**
 
-    ```
+    ```bash
     pip install -r requirements.txt
     ```
 
