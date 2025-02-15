@@ -38,10 +38,6 @@ def login_employee(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_customer(request):
-    """
-    if request.user.role != 'admin':
-        return Response({"error": "You do not have permission to perform this action!"}, status=status.HTTP_403_FORBIDDEN)
-    """
     serializer = CustomerSerializer(data = request.data)
     if serializer.is_valid():
         serializer.save()
@@ -97,8 +93,6 @@ def withdraw_money(request):
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def delete_customer(request, customer_id):
-    if request.user.role != 'admin':
-        return Response({"error": "You do not have permission to perform this action."}, status=status.HTTP_403_FORBIDDEN)
     try:
         customer = Customers.objects.get(id=customer_id)
         customer.delete()
