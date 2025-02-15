@@ -39,7 +39,7 @@ class LoginSerializer(serializers.Serializer):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customers
-        fields = ['name', 'email', 'account_balance', 'created_at', 'updated_at']
+        fields = ['id', 'name', 'email', 'account_balance', 'created_at', 'updated_at']
 
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
