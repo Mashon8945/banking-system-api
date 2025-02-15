@@ -46,7 +46,6 @@ cd banking-system-api
 ```bash
 python -m venv venv
 venv\Scripts\activate  # Windows
-source venv/bin/activate  # macOS/Linux
 ```
 
 ### 3. Install Dependencies
@@ -151,18 +150,261 @@ http://your_droplet_ip:8000
 ### Authentication
 
 - **Register:** `POST /api/employees/register`
+### Register Test
+
+**Request:**
+
+```
+POST /api/employees/register
+Content-Type: application/json
+```
+
+**Body:**
+
+```json
+{
+    "username": "testuser",
+    "email": "test@user.com",
+    "password": "testpass",
+    "role": "admin"
+}
+```
+
+**Expected Response:**
+
+```json
+{
+    "username": "testuser",
+    "email": "test@user.com",
+    "role": "admin"
+}
+```
+
+
 - **Login:** `POST /api/employees/login`
+### Login Test
 
-### Customers
+**Request:**
 
-- **Add Customer:** `POST /api/customers/add`
-- **List Customers:** `GET /api/customers`
+```
+POST /api/employees/login
+Content-Type: application/json
+```
+
+**Body:**
+
+```json
+{
+    "username": "testuser",
+    "password": "testpass"
+}
+```
+
+**Expected Response:**
+
+```json
+{
+    "message": "Login successful"
+}
+```
+### Obtain JWT Token
+
+**Request:**
+
+```
+POST /api/token/
+Content-Type: application/json
+```
+
+**Body:**
+
+```json
+{
+    "username": "admin",
+    "password": "testpass"
+}
+```
+**Expected Response:**
+
+```json
+{
+    "refresh": "<token>",
+    "access": "<token>"
+}
+```
+
+## Customers
+
+### Add Customer
+
+**Request:**
+
+```
+POST /api/customers/add
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+**Body:**
+
+```json
+{
+    "name": "Anto Goro",
+    "email": "Goro@test.com",
+    "account_balance": "2500.00"
+}
+```
+
+**Expected Response:**
+
+```json
+{
+    "name": "Anto Goro",
+    "email": "Goro@test.com",
+    "account_balance": "2500.00",
+    "created_at": "2025-02-15T06:14:00.262488Z",
+    "updated_at": "2025-02-15T06:14:00.262488Z"
+}
+```
+
+### List Customers
+
+**Request:**
+
+```
+GET /api/customers
+Authorization: Bearer <token>
+```
+
+**Expected Response:**
+
+```json
+{
+    "count": 4,
+    "next": null,
+    "previous": null,
+    "results": [
+        {
+            "name": "Ann Terry",
+            "email": "Annterry@test.com",
+            "account_balance": "800.00",
+            "created_at": "2025-02-14T10:59:37.854889Z",
+            "updated_at": "2025-02-14T10:59:37.854889Z"
+        },
+        {
+            "name": "Sim Simo",
+            "email": "Simo@test.com",
+            "account_balance": "950.00",
+            "created_at": "2025-02-14T11:08:05.736750Z",
+            "updated_at": "2025-02-14T11:08:05.736750Z"
+        }
+    ]
+}
+```
+
+### Delete Customer
+
+**Request:**
+
+```
+DELETE /api/customers/<customer_id>
+```
+
+**Expected Response:**
+
+```json
+{
+    "message": "Customer deleted successful"
+}
+```
+
+
+## Transactions
+
+### Deposit Money
+
+**Request:**
+
+```
+POST /api/transactions/deposit
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+**Body:**
+
+```json
+{
+    "customer": 4,
+    "transaction_type": "deposit",
+    "amount": "1200"
+}
+```
+
+**Expected Response:**
+
+```json
+{
+    "customer": 4,
+    "transaction_type": "deposit",
+    "amount": "1200"
+}
+```
+
+### Withdraw Money
+
+**Request:**
+
+```
+POST /api/transactions/withdraw
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+**Body:**
+
+```json
+{
+    "customer": 3,
+    "transaction_type": "withdrawal",
+    "amount": "1500.00"
+}
+```
+
+**Expected Response:**
+
+```json
+{
+    "customer": 3,
+    "transaction_type": "withdrawal",
+    "amount": "1500.00",
+    "created_at": "2025-02-15T06:18:23.770982Z",
+    "updated_at": "2025-02-15T06:18:23.770982Z"
+}
+```
+
+## JWT Token Refresh
+
+**Request:**
+
+```
+POST /api/token/refresh/
+Authorization: Bearer <token>
+Content-Type: application/json
+```
+
+**Expected Response:**
+
+```json
+{
+    "access_token": "<token>"
+}
+```
+
+
 - **Delete Customer:** `DELETE /api/customers/delete/<customer_id>`
 
-### Transactions
 
-- **Deposit Money:** `POST /api/transactions/deposit`
-- **Withdraw Money:** `POST /api/transactions/withdraw`
 
 ## Contributing
 
