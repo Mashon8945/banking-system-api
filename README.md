@@ -12,6 +12,8 @@ This is a banking system API built with Django and Django REST Framework. The AP
 - [Docker Setup](#docker-setup)
 - [Deployment](#deployment)
 - [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Features
 
@@ -32,140 +34,141 @@ This is a banking system API built with Django and Django REST Framework. The AP
 
 ## Installation
 
-1. **Clone the repository:**
+### 1. Clone the Repository
 
-    ```sh
-    git clone https://github.com/mashon8945/banking-system-api.git
-    ```
+```sh
+git clone https://github.com/mashon8945/banking-system-api.git
+cd banking-system-api
+```
 
-    navigate
-    ```
-    cd banking-system-api
-    ```
+### 2. Create and Activate a Virtual Environment
 
-2. **Create and activate a virtual environment:**
+```bash
+python -m venv venv
+venv\Scripts\activate  # Windows
+source venv/bin/activate  # macOS/Linux
+```
 
-    ```bash
-    python -m venv venv
-    `venv\Scripts\activate`
-    ```
+### 3. Install Dependencies
 
-3. **Install the dependencies**
+```sh
+pip install -r requirements.txt
+```
 
-    ```sh
-    pip install -r requirements.txt
-    ```
+### 4. Set Up the Database
 
-4. **Set up the database**
+Ensure *PostgreSQL* is installed and running. Create a database and update the *DATABASE_URL* in ***settings.py***:
 
-    Ensure *PostgreSQL* is installed and running. Create a database and update the *DATABASE_URL* in ***settings.py***:
-    ```sh
-    DATABASES = {
-        'default': dj_database_url.config(default='postgres://username:password@localhost:5432/banking_db')
-    }
-    ```
+```python
+DATABASES = {
+    'default': dj_database_url.config(default='postgres://username:password@localhost:5432/banking_db')
+}
+```
 
-5. **Run Migrations**
+### 5. Run Migrations
 
-    ```bash
-    python manage.py migrate
-    ```
+```bash
+python manage.py migrate
+```
 
-6. **Create Superuser**
+### 6. Create a Superuser
 
-    ```bash
-    python manage.py createsuperuser
-    ```
+```bash
+python manage.py createsuperuser
+```
 
-### Running the Application
+## Running the Application
 
-    1. Start the development server:
+### 1. Start the Development Server
 
-        ```bash
-        python manage.py runserver
-        ```
+```bash
+python manage.py runserver
+```
 
-    2. Access the application:
+### 2. Access the Application
 
-        (`http://127.0.0.1:8000/`)
+Open your browser and navigate to:
 
-### Running Tests
+```
+http://127.0.0.1:8000/
+```
 
-    1. Run the test suite:
+## Running Tests
 
-        ```bash
-        python manage.py test
-        ```
+### 1. Run the Test Suite
 
-### Docker Setup
-    1. Build and run the Docker containers:
-    
-        ```bash
-        docker-compose build
-        docker-compose up
-        ```
+```bash
+python manage.py test
+```
 
-    2. Access the application:
+## Docker Setup
 
-### Deployment
-    1. Create a Digital Ocean Droplet:
-        - Go to the DigitalOcean dashboard and create a new Droplet.
-        - Choose the Docker image from the marketplace.
-        - Configure the Droplet settings and create it.
+### 1. Build and Run the Docker Containers
 
-    2. SSH into the Droplet:
+```bash
+docker-compose build
+docker-compose up
+```
 
-    ```bash
-    ssh root@your_droplet_ip
-    ```
+## Deployment
 
-    3. Clone the repo:
+### 1. Create a DigitalOcean Droplet
 
-    ```bash
-    git clone https://github.com/mashon8945/banking-system-api.git
-    ```
-    - Navigate
+- Go to the [DigitalOcean](https://www.digitalocean.com/) dashboard and create a new Droplet.
+- Choose the Docker image from the marketplace.
+- Configure the Droplet settings and create it.
 
-    ```sh
-    cd banking-system-api
-    ```
+### 2. SSH into the Droplet
 
-    4. Build and run the Docker cointainers:
+```bash
+ssh root@your_droplet_ip
+```
 
-    ```bash
-    docker-compose build
-    docker-compose up -d
-    ```
+### 3. Clone the Repository
 
-    5. Access the application:
+```bash
+git clone https://github.com/mashon8945/banking-system-api.git
+cd banking-system-api
+```
 
-        Open the browser and go to
-        http://your_droplet_ip:8000
+### 4. Build and Run the Docker Containers
 
-### API Endpoints
+```bash
+docker-compose build
+docker-compose up -d
+```
 
-**Authentication**
+### 5. Access the Application
 
-    - Register: POST /api/employees/register
-    - Login: POST /api/employees/login
+Open your browser and navigate to:
 
-**Customers**
+```
+http://your_droplet_ip:8000
+```
 
-    - Add Customer: POST /api/customers/add
-    - List Customers: GET /api/customers
-    - Delete Customer: DELETE /api/customers/delete/<customer_id>
+## API Endpoints
 
-**Transactions**
+### Authentication
 
-    - Deposit Money: POST /api/transactions/deposit
-    - Withdraw Money: POST /api/transactions/withdraw
+- **Register:** `POST /api/employees/register`
+- **Login:** `POST /api/employees/login`
 
-### Contributing
-    
-    - Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+### Customers
 
-### License
+- **Add Customer:** `POST /api/customers/add`
+- **List Customers:** `GET /api/customers`
+- **Delete Customer:** `DELETE /api/customers/delete/<customer_id>`
 
-    ```sh
-    This project is licensed under the MIT License.
-    ```
+### Transactions
+
+- **Deposit Money:** `POST /api/transactions/deposit`
+- **Withdraw Money:** `POST /api/transactions/withdraw`
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+
+## License
+
+This project is licensed under the **MIT License**.
+
